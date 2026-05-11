@@ -52,8 +52,8 @@ export const cartApi = {
 
 // Orders
 export const orderApi = {
-  create: (data: { shippingAddress: object }) => api.post('/orders', data),
-  getMyOrders: (page?: number) => api.get('/orders', { params: { page } }),
+  create: (data: { shippingAddress: object; paymentMethod?: string }) => api.post('/orders', data),
+  getAll: (params: object) => api.get('/orders', { params }),
   getOne: (id: string) => api.get(`/orders/${id}`),
 };
 
@@ -63,6 +63,6 @@ export const adminApi = {
   createProduct: (form: FormData) => api.post('/admin/products', form, { headers: { 'Content-Type': 'multipart/form-data' } }),
   updateProduct: (id: string, form: FormData) => api.put(`/admin/products/${id}`, form, { headers: { 'Content-Type': 'multipart/form-data' } }),
   deleteProduct: (id: string) => api.delete(`/admin/products/${id}`),
-  getAllOrders: (params: object) => api.get('/admin/orders', { params }),
+  getOrders: (params: object) => api.get('/admin/orders', { params }),
   updateOrderStatus: (id: string, status: string) => api.put(`/admin/orders/${id}/status`, { status }),
 };
