@@ -37,12 +37,18 @@ exports.getMe = async (req, res) => {
 };
 
 exports.updateProfile = async (req, res) => {
-  const { name, address } = req.body;
-  const user = await User.findByIdAndUpdate(
-    req.user._id,
-    { name, address },
-    { new: true, runValidators: true }
-  );
+  const { name, email, address } = req.body;
+  const updates = {};
+  if (name !== undefined) updates.name = name;
+  if (email !== undefined) updates.email = email;
+  if (address !== undefined) updates.address = address;
+
+  if (email) {
+    const conflict = await User.findOne({ email, _id: { $ne: req.user._id } });
+    if (conflict) return res.status(400).json({ message: 'Email already in use' });
+  }
+
+  const user = await User.findByIdAndUpdate(req.user._id, updates, { new: true, runValidators: true });
   res.json({ user });
 };
 

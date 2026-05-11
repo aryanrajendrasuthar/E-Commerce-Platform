@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, Fragment } from 'react';
 import { adminApi } from '../../services/api';
 import { Order } from '../../types';
 import { ChevronLeft, ChevronRight, ChevronDown } from 'lucide-react';
@@ -74,8 +74,8 @@ export default function AdminOrders() {
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {orders.map((order) => (
-                  <>
-                    <tr key={order._id} className="hover:bg-gray-50 transition">
+                  <Fragment key={order._id}>
+                    <tr className="hover:bg-gray-50 transition">
                       <td className="px-6 py-4 text-sm font-mono text-gray-500">
                         #{order._id.slice(-8).toUpperCase()}
                       </td>
@@ -122,7 +122,7 @@ export default function AdminOrders() {
                       </td>
                     </tr>
                     {expandedId === order._id && (
-                      <tr key={`${order._id}-expanded`}>
+                      <tr>
                         <td colSpan={7} className="px-6 pb-4 bg-gray-50">
                           <div className="pt-2">
                             <p className="text-xs font-semibold text-gray-500 uppercase mb-2">Order Items</p>
@@ -146,7 +146,7 @@ export default function AdminOrders() {
                         </td>
                       </tr>
                     )}
-                  </>
+                  </Fragment>
                 ))}
               </tbody>
             </table>
